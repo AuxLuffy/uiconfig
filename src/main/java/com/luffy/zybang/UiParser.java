@@ -52,6 +52,15 @@ public class UiParser implements ContainerService {
         Container roomContainer_temp = new Container();
         int width = 0;
         int height = 0;
+        if (screenSize.width * room.height > screenSize.height * room.width) {
+            //屏幕是狭长形，则高度撑满
+            height = screenSize.height;
+            width = screenSize.height * room.width / room.height;
+        } else {
+            //屏幕趋于正方形，则宽度撑满
+            width = screenSize.width;
+            height = screenSize.width * room.height / room.width;
+        }
         LayoutParams lp = new LayoutParams(width, height);
         roomContainer_temp.layoutparams = lp;
         spaceWidth = cacSpaceWidth(roomContainer_temp, uiConfig.space);
@@ -79,36 +88,36 @@ public class UiParser implements ContainerService {
 
     }
 
-    private void parseChildView(Container parentView, List<UiConfig.View> children) {
-        Collections.sort(children, new Comparator<UiConfig.View>() {
+    private void parseChildView(Container parentView, List<UiConfig.ViewModel> children) {
+        Collections.sort(children, new Comparator<UiConfig.ViewModel>() {
             @Override
-            public int compare(UiConfig.View o1, UiConfig.View o2) {
+            public int compare(UiConfig.ViewModel o1, UiConfig.ViewModel o2) {
                 return o2.viewPriority - o1.viewPriority;
             }
         });
 
         for (int i = 0; i < children.size(); i++) {
             Container childContainer = new Container();
-            UiConfig.View view = children.get(i);
+            UiConfig.ViewModel viewModel = children.get(i);
             LayoutParams lp = new LayoutParams();
             LayoutParams.Margin extraMargin = null;
-            if (view.layout_gravity != null) {
-                lp.gravity = calGravity(view.layout_gravity);
+            if (viewModel.layout_gravity != null) {
+                lp.gravity = calGravity(viewModel.layout_gravity);
 
             } else {
                 lp.gravity = LayoutParams.Gravity.LEFT;
                 //... 走align判断位置，相当于有额外的margin值
-                extraMargin = getExtraMargin(parentView, view.align);
+                extraMargin = getExtraMargin(parentView, viewModel.align);
             }
-            lp.margin = getMargin(parentView, view.margin).plus(extraMargin);
+            lp.margin = getMargin(parentView, viewModel.margin).plus(extraMargin);
             if (isSizeViliable(lp.width) && isSizeViliable(lp.height)) {
 
                 break;
             }
             //计算其中一条边
-            cacViewSingleLength(parentView, view, lp);
-            if (!StringUtils.isEmpty(view.ratio) && view.ratio.matches("^\\d+:\\d+$")) {
-                String[] split = view.ratio.split(",");
+            cacViewSingleLength(parentView, viewModel, lp);
+            if (!StringUtils.isEmpty(viewModel.ratio) && viewModel.ratio.matches("^\\d+:\\d+$")) {
+                String[] split = viewModel.ratio.split(",");
                 int w = Integer.parseInt(split[0]);
                 int h = Integer.parseInt(split[1]);
                 if (lp.width > 0 && lp.height == 0) {//width已经计算出来了
@@ -120,15 +129,15 @@ public class UiParser implements ContainerService {
             }
 
             parentView.addView(childContainer, lp);
-            attachInfo(childContainer, view);
-            if (view.children != null && view.children.size() > 0) {
-                parseChildView(childContainer, view.children);
+            attachInfo(childContainer, viewModel);
+            if (viewModel.children != null && viewModel.children.size() > 0) {
+                parseChildView(childContainer, viewModel.children);
             }
         }
     }
 
-    private void attachInfo(Container container, UiConfig.View view) {
-        switch (view.name) {
+    private void attachInfo(Container container, UiConfig.ViewModel viewModel) {
+        switch (viewModel.name) {
             case "room":
                 roomContainer = container;
                 break;
@@ -159,40 +168,40 @@ public class UiParser implements ContainerService {
             default:
                 break;
         }
-        container.setId(view.viewId);
+        container.setId(viewModel.viewId);
     }
 
 
-    private void cacViewSingleLength(Container parentView, UiConfig.View view, LayoutParams lp) {
-        if (view.width == -1 || view.height == -1) {//充满父布局
-            if (view.width == -1) {
+    private void cacViewSingleLength(Container parentView, UiConfig.ViewModel viewModel, LayoutParams lp) {
+        if (viewModel.width == -1 || viewModel.height == -1) {//充满父布局
+            if (viewModel.width == -1) {
                 lp.width = parentView.layoutparams.width - lp.margin.left - lp.margin.right;
             }
-            if (view.height == -1) {
+            if (viewModel.height == -1) {
                 lp.height = parentView.layoutparams.height - lp.margin.top - lp.margin.bottom;
             }
         }
-        if (view.width == -2 || view.height == -2) {//父布局大小减去widthMinusId相关的子空间后的大小
-            if (view.width == -2) {
-                List<Integer> widthMinusId = view.widthMinusId;
+        if (viewModel.width == -2 || viewModel.height == -2) {//父布局大小减去widthMinusId相关的子空间后的大小
+            if (viewModel.width == -2) {
+                List<Integer> widthMinusId = viewModel.widthMinusId;
                 int widthNeedMinus = cacWidthSum(widthMinusId);
                 lp.width = parentView.layoutparams.width - widthNeedMinus;
             }
-            if (view.height == -2) {
-                List<Integer> widthMinusId = view.heightMinusId;
+            if (viewModel.height == -2) {
+                List<Integer> widthMinusId = viewModel.heightMinusId;
                 int heightNeedMinus = cacHeightSum(widthMinusId);
                 lp.width = parentView.layoutparams.height - heightNeedMinus;
             }
         }
-        if (view.width > 0 || view.height > 0) {
-            if (view.width > 0) {
-                if (view.layoutType == 2) {
-                    lp.width = view.width;
+        if (viewModel.width > 0 || viewModel.height > 0) {
+            if (viewModel.width > 0) {
+                if (viewModel.layoutType == 2) {
+                    lp.width = viewModel.width;
                 }
             }
-            if (view.height > 0) {
-                if (view.layoutType == 2) {
-                    lp.height = view.height;
+            if (viewModel.height > 0) {
+                if (viewModel.layoutType == 2) {
+                    lp.height = viewModel.height;
                 }
             }
         }

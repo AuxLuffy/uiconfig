@@ -20,7 +20,7 @@ public class UiConfig {
      */
     public Room room;
 
-    public static class Room extends View {
+    public static class Room extends ViewModel {
         public int roomFrameType;
     }
 
@@ -52,7 +52,7 @@ public class UiConfig {
         String type;
     }
 
-    public static class View {
+    public static class ViewModel {
         public SpaceCount spaceCount;
         public String name;
         public int viewPriority;
@@ -65,7 +65,7 @@ public class UiConfig {
         public String ratio;
         public List<Integer> widthMinusId;
         public List<Integer> heightMinusId;
-        public List<View> children;
+        public List<ViewModel> children;
         public Margin margin;
         public Corner corner;
         public Background background;

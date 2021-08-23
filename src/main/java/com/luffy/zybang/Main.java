@@ -6,7 +6,7 @@ package com.luffy.zybang;
  */
 public class Main {
     public static void main(String[] args) {
-        regexpTest("11:3");
+        regexpTest("111111:3");
     }
 
     private static boolean regexpTest(String s) {
