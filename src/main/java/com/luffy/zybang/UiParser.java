@@ -107,7 +107,7 @@ public class UiParser implements ContainerService {
             }
             //计算其中一条边
             cacViewSingleLength(parentView, view, lp);
-            if (!StringUtils.isEmpty(view.ratio) && view.ratio.matches("\\d?:\\d?")) {
+            if (!StringUtils.isEmpty(view.ratio) && view.ratio.matches("^\\d+:\\d+$")) {
                 String[] split = view.ratio.split(",");
                 int w = Integer.parseInt(split[0]);
                 int h = Integer.parseInt(split[1]);
