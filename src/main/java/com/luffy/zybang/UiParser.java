@@ -44,7 +44,7 @@ public class UiParser implements ContainerService {
      * 将配置转化为各个容器，需要在方法参数加一个根布局
      */
     public void parseUiConfig(Container rootView) {
-        UiConfig.Room room = uiConfig.room;
+        UiConfig.ViewModel room = uiConfig.room;
         if (room == null) {
             throw new InflateException("根布局为空");
         }
@@ -92,7 +92,7 @@ public class UiParser implements ContainerService {
         Collections.sort(children, new Comparator<UiConfig.ViewModel>() {
             @Override
             public int compare(UiConfig.ViewModel o1, UiConfig.ViewModel o2) {
-                return o2.viewPriority - o1.viewPriority;
+                return o2.priority - o1.priority;
             }
         });
 
@@ -101,9 +101,8 @@ public class UiParser implements ContainerService {
             UiConfig.ViewModel viewModel = children.get(i);
             LayoutParams lp = new LayoutParams();
             LayoutParams.Margin extraMargin = null;
-            if (viewModel.layout_gravity != null) {
-                lp.gravity = calGravity(viewModel.layout_gravity);
-
+            if (viewModel.layoutGravity != null) {
+                lp.gravity = calGravity(viewModel.layoutGravity);
             } else {
                 lp.gravity = LayoutParams.Gravity.LEFT;
                 //... 走align判断位置，相当于有额外的margin值
@@ -114,8 +113,9 @@ public class UiParser implements ContainerService {
 
                 break;
             }
-            //计算其中一条边
+            //计算出能计算的一条边
             cacViewSingleLength(parentView, viewModel, lp);
+            //根据宽高比计算另一边
             if (!StringUtils.isEmpty(viewModel.ratio) && viewModel.ratio.matches("^\\d+:\\d+$")) {
                 String[] split = viewModel.ratio.split(",");
                 int w = Integer.parseInt(split[0]);
@@ -171,7 +171,13 @@ public class UiParser implements ContainerService {
         container.setId(viewModel.viewId);
     }
 
-
+    /**
+     * 先计算出能计算的一边长度
+     *
+     * @param parentView
+     * @param viewModel
+     * @param lp
+     */
     private void cacViewSingleLength(Container parentView, UiConfig.ViewModel viewModel, LayoutParams lp) {
         if (viewModel.width == -1 || viewModel.height == -1) {//充满父布局
             if (viewModel.width == -1) {
@@ -238,7 +244,7 @@ public class UiParser implements ContainerService {
     }
 
     private boolean isSizeViliable(int width) {
-        if (width < -2 || width == 0) {
+        if (width < -2) {//不能判断等于0,因为如果没值的时候默认解析出来的json是0
             return false;
         }
         return true;

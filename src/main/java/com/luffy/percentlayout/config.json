@@ -1,0 +1,108 @@
+{
+  "room": {
+    "viewId": 10001,
+    "description": "room",
+    "corner": 10,
+    "priority": 0,
+    "layoutType": 1,
+    "ratio": "20:9",
+    "background": {
+      "type": "color||pic",
+      "value": "#3A2DB7,100%||img/roomBg.png"
+    },
+    "children ": [
+      {
+        "viewId": 10002,
+        "description": "course",
+        "corner": 10,
+        "priority": 0,
+        "layoutType": 0,
+        "width": 0.825,
+        "height": 1,
+        "x": 0.02,
+        "y": 0.02
+      },
+      {
+        "viewId": 10003,
+        "description": "func",
+        "corner": 10,
+        "priority": 1,
+        "layoutType": 0,
+        "width": 0.2,
+        "height": 1,
+        "x": 0.78,
+        "y": 0.02,
+        "children": [
+          {
+            "viewId": 10004,
+            "description": "myAvatar",
+            "corner": 10,
+            "priority": 0,
+            "layoutType": 0,
+            "width": 1,
+            "height": 0.3,
+            "x": 0,
+            "y": 0
+          },
+          {
+            "description": "otherStu",
+            "corner": 10,
+            "priority": 1,
+            "viewId": 10005,
+            "layoutType": 0,
+            "width": 1,
+            "height": 0.7,
+            "x": 0,
+            "y": 0.3,
+            "children": [
+              {
+                "viewId": 11000,
+                "description": "stuItem",
+                "corner": 10,
+                "priority": 0,
+                "layoutType": 0,
+                "width": 1,
+                "height": 0.5,
+                "x": 0,
+                "y": 0
+              },
+              {
+                "viewId": 11000,
+                "description": "stuItem",
+                "corner": 10,
+                "priority": 1,
+                "layoutType": 0,
+                "width": 1,
+                "height": 0.5,
+                "x": 0,
+                "y": 0.5
+              },
+              {
+                "viewId": 11000,
+                "description": "stuItem",
+                "corner": 10,
+                "priority": 0,
+                "layoutType": 0,
+                "width": 1,
+                "height": 0.3,
+                "x": 0,
+                "y": 0.7
+              }
+            ]
+          },
+          {
+            "viewId": 10006,
+            "description": "assistTeacher",
+            "corner": 10,
+            "priority": 2,
+            "layoutType": 0,
+            "width": 1,
+            "height": 0.3,
+            "x": 0,
+            "y": 0
+          }
+        ]
+      }
+    ]
+  }
+}

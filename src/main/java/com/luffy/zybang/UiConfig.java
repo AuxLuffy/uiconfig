@@ -18,11 +18,7 @@ public class UiConfig {
     /**
      * 直播间可用区域根布局
      */
-    public Room room;
-
-    public static class Room extends ViewModel {
-        public int roomFrameType;
-    }
+    public ViewModel room;
 
     public static class SpaceCount {
         public int wNum;
@@ -53,12 +49,11 @@ public class UiConfig {
     }
 
     public static class ViewModel {
-        public SpaceCount spaceCount;
-        public String name;
-        public int viewPriority;
+
+        public String name;//描述
+        public int priority;//优先级
         public int viewId;
-        public int viewType;
-        public String layout_gravity;
+        public String layoutGravity;//相对于父布局的位置
         public int layoutType;
         public int width;
         public int height;
@@ -75,10 +70,6 @@ public class UiConfig {
     public static class Space {
         public Double width;
         public String relative;
-    }
-
-    public interface ContainerId{
-
     }
 
 }
