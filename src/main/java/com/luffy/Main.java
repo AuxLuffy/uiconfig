@@ -1,4 +1,4 @@
-package com.luffy.zybang;
+package com.luffy;
 
 /**
  * @author sunzhangfei

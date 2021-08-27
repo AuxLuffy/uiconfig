@@ -1,4 +1,8 @@
-package com.luffy.zybang;
+package com.luffy.api;
+
+import com.luffy.common.Container;
+
+import java.util.List;
 
 /**
  * @author sunzhangfei
@@ -67,5 +71,11 @@ public interface ContainerService {
      * @return
      */
     Container getFucContainer();
+
+    /**
+     * 获取其他学生的子容器的列表
+     * @return
+     */
+    List<Container> getOtherStusContainerList();
 
 }

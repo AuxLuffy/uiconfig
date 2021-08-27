@@ -1,4 +1,4 @@
-package com.luffy.zybang;
+package com.luffy.common;
 
 /**
  * 解析布局异常
@@ -6,7 +6,7 @@ package com.luffy.zybang;
  * @author sunzhangfei
  * @since 2021/8/20 12:56 下午
  */
-class InflateException extends RuntimeException {
+public class InflateException extends RuntimeException {
     public InflateException(String cause) {
         super(cause);
     }

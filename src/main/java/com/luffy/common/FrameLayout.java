@@ -1,4 +1,6 @@
-package com.luffy.zybang;
+package com.luffy.common;
+
+import com.luffy.zybang.LayoutParams;
 
 import java.util.ArrayList;
 
@@ -8,7 +10,7 @@ import java.util.ArrayList;
  * @author sunzhangfei
  * @since 2021/8/20 1:01 下午
  */
-class FrameLayout {
+public class FrameLayout {
     private Size size;
     public LayoutParams layoutparams;
     private int id;
