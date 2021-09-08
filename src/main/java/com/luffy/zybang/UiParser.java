@@ -363,4 +363,9 @@ public class UiParser implements ContainerService {
     public Container getFucContainer() {
         return funContainer;
     }
+
+    @Override
+    public List<Container> getOtherStusContainerList() {
+        return null;
+    }
 }
